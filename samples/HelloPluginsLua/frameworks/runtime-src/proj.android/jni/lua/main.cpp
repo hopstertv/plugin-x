@@ -1,3 +1,5 @@
+#include <memory>
+
 #include <android/log.h>
 #include <jni.h>
 
@@ -11,9 +13,13 @@
 
 using namespace cocos2d;
 
+namespace {
+std::unique_ptr<AppDelegate> appDelegate;
+}
+
 void cocos_android_app_init(JNIEnv* env) {
     LOGD("cocos_android_app_init");
-    AppDelegate *pAppDelegate = new AppDelegate();
+    appDelegate.reset(new AppDelegate());
     JavaVM* vm;
     env->GetJavaVM(&vm);
     PluginJniHelper::setJavaVM(vm);
